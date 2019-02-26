@@ -10,12 +10,7 @@ void AC_AttitudeControl::input_quaternion(Quaternion attitude_desired_quat)
 
     if (_rate_bf_ff_enabled) {
         // When acceleration limiting and feedforward are enabled, the sqrt controller is used to compute an euler
-        // angular velocity that will cause the euler angle to smoothly stop at the input angle with limited deceleration
-        // and an exponential decay specified by _input_tc at the end.
-        _attitude_target_ang_vel.x = input_shaping_angle(wrap_PI(attitude_error_angle.x), _input_tc, get_accel_roll_max_radss(), _attitude_target_ang_vel.x, _dt);
-        _attitude_target_ang_vel.y = input_shaping_angle(wrap_PI(attitude_error_angle.y), _input_tc, get_accel_pitch_max_radss(), _attitude_target_ang_vel.y, _dt);
-        _attitude_target_ang_vel.z = input_shaping_angle(wrap_PI(attitude_error_angle.z), _input_tc, get_accel_yaw_max_radss(), _attitude_target_ang_vel.z, _dt);
-
+    
         // Limit the angular velocity
         ang_vel_limit(_attitude_target_ang_vel, radians(_ang_vel_roll_max), radians(_ang_vel_pitch_max), radians(_ang_vel_yaw_max));
         // Convert body-frame angular velocity into euler angle derivative of desired attitude
